@@ -11,21 +11,21 @@ interface DrawingState {
 }
 
 type DrawingAction =
-  | { type: 'START_DRAWING' }
-  | { type: 'STOP_DRAWING' }
-  | { type: 'SET_TOOL'; tool: 'pen' | 'eraser' | 'select' }
-  | { type: 'SET_STROKE_WIDTH'; width: number }
-  | { type: 'SET_STROKE_COLOR'; color: string }
-  | { type: 'ADD_STROKE'; stroke: any }
-  | { type: 'CLEAR_CANVAS' }
-  | { type: 'UNDO' };
+{type: 'START_DRAWING';} |
+{type: 'STOP_DRAWING';} |
+{type: 'SET_TOOL';tool: 'pen' | 'eraser' | 'select';} |
+{type: 'SET_STROKE_WIDTH';width: number;} |
+{type: 'SET_STROKE_COLOR';color: string;} |
+{type: 'ADD_STROKE';stroke: any;} |
+{type: 'CLEAR_CANVAS';} |
+{type: 'UNDO';};
 
 const initialState: DrawingState = {
   isDrawing: false,
   currentTool: 'pen',
   strokeWidth: 2,
   strokeColor: '#000000',
-  canvasData: [],
+  canvasData: []
 };
 
 function drawingReducer(state: DrawingState, action: DrawingAction): DrawingState {
@@ -56,14 +56,14 @@ const DrawingContext = createContext<{
   dispatch: React.Dispatch<DrawingAction>;
 } | null>(null);
 
-export function DrawingProvider({ children }: { children: ReactNode }) {
+export function DrawingProvider({ children }: {children: ReactNode;}) {
   const [state, dispatch] = useReducer(drawingReducer, initialState);
 
   return (
-    <DrawingContext.Provider value={{ state, dispatch }}>
+    <DrawingContext.Provider value={{ state, dispatch }} data-zeus-id="Z-280">
       {children}
-    </DrawingContext.Provider>
-  );
+    </DrawingContext.Provider>);
+
 }
 
 export function useDrawing() {

@@ -16,15 +16,15 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full bg-gray-900 text-gray-100 border-b border-gray-800">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
-        <a href="/" className="font-semibold text-white">App</a>
-        <div className="flex items-center gap-3">
-          <a href="/auth/login" className="hidden sm:inline text-sm text-gray-300 hover:text-white">Login</a>
-          <a href="/auth/register" className="hidden sm:inline text-sm text-gray-300 hover:text-white">Registro</a>
-          <button onClick={handleLogout} className="inline-flex items-center rounded-md bg-gray-800 hover:bg-gray-700 text-sm px-3 py-1.5 text-white">Cerrar sesión</button>
+    <nav className="w-full bg-gray-900 text-gray-100 border-b border-gray-800" data-zeus-id="Z-1">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between" data-zeus-id="Z-2">
+        <a href="/" className="font-semibold text-white" data-zeus-id="Z-3">App</a>
+        <div className="flex items-center gap-3" data-zeus-id="Z-4">
+          <a href="/auth/login" className="hidden sm:inline text-sm text-gray-300 hover:text-white" data-zeus-id="Z-5">Login</a>
+          <a href="/auth/register" className="hidden sm:inline text-sm text-gray-300 hover:text-white" data-zeus-id="Z-6">Registro</a>
+          <button onClick={handleLogout} className="inline-flex items-center rounded-md bg-gray-800 hover:bg-gray-700 text-sm px-3 py-1.5 text-white" data-zeus-id="Z-7">Cerrar sesión</button>
         </div>
       </div>
-    </nav>
-  );
+    </nav>);
+
 }

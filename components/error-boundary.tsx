@@ -9,7 +9,7 @@ interface ErrorBoundaryState {
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
-  fallback?: React.ComponentType<{ error?: Error; resetError: () => void }>;
+  fallback?: React.ComponentType<{error?: Error;resetError: () => void;}>;
 }
 
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
@@ -34,27 +34,27 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     if (this.state.hasError) {
       if (this.props.fallback) {
         const FallbackComponent = this.props.fallback;
-        return <FallbackComponent error={this.state.error} resetError={this.resetError} />;
+        return <FallbackComponent error={this.state.error} resetError={this.resetError} data-zeus-id="Z-144" />;
       }
 
       return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+        <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900" data-zeus-id="Z-145">
+          <div className="text-center" data-zeus-id="Z-146">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4" data-zeus-id="Z-147">
               Algo salió mal
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
+            <p className="text-gray-600 dark:text-gray-400 mb-6" data-zeus-id="Z-148">
               Ha ocurrido un error inesperado. Por favor, intenta recargar la página.
             </p>
             <button
               onClick={this.resetError}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-            >
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors" data-zeus-id="Z-149">
+
               Intentar de nuevo
             </button>
           </div>
-        </div>
-      );
+        </div>);
+
     }
 
     return this.props.children;

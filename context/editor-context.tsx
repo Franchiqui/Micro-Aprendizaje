@@ -5,7 +5,7 @@ interface EditorContextType {
   selectedTool: string;
   zoomLevel: number;
   isDragging: boolean;
-  
+
   // Editor actions
   setSelectedTool: (tool: string) => void;
   setZoomLevel: (level: number) => void;
@@ -14,7 +14,7 @@ interface EditorContextType {
 
 const EditorContext = createContext<EditorContextType | undefined>(undefined);
 
-export function EditorProvider({ children }: { children: React.ReactNode }) {
+export function EditorProvider({ children }: {children: React.ReactNode;}) {
   const [selectedTool, setSelectedTool] = useState('select');
   const [zoomLevel, setZoomLevel] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
@@ -29,10 +29,10 @@ export function EditorProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <EditorContext.Provider value={value}>
+    <EditorContext.Provider value={value} data-zeus-id="Z-281">
       {children}
-    </EditorContext.Provider>
-  );
+    </EditorContext.Provider>);
+
 }
 
 export function useEditor() {

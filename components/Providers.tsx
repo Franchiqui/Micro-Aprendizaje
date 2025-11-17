@@ -3,20 +3,22 @@
 import * as React from 'react';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
-import { StoreProvider } from '@/lib/store';
+import { useStore } from '@/lib/store';
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export function Providers({ children }: {children: React.ReactNode;}) {
+  React.useEffect(() => {
+    useStore.getState().init();
+  }, []);
+
   return (
-    <StoreProvider>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        {children}
-        <Toaster />
-      </ThemeProvider>
-    </StoreProvider>
-  );
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange data-zeus-id="Z-239">
+
+      {children}
+      <Toaster data-zeus-id="Z-240" />
+    </ThemeProvider>);
+
 };

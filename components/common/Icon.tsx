@@ -3,8 +3,8 @@ import {
   Home, User, Settings, Heart, Star, Search, Mail, Phone, Calendar, Camera, Edit, Trash, Plus, Minus, X, Zap, Move, RotateCcw, Save, Paintbrush, Ruler, Image, HelpCircle,
   Check as CheckIconComponent,
   RefreshCw as RefreshCwIconComponent,
-  Activity, AlertCircle, Archive, ArrowDown, ArrowLeft, ArrowRight, ArrowUp, AtSign, Award, Bell, Bookmark, Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Circle, Clipboard, Clock, Cloud, Code, Command, CreditCard, Database, Disc, Download, ExternalLink, Facebook, File, Filter, Flag, Folder, Gift, Github, Globe, Grid, HardDrive, Hash, Headphones, Inbox, Info, Instagram, Key, Layers, LifeBuoy, Link, Linkedin, List, Lock, LogIn, LogOut, Map, Menu, MessageCircle, MessageSquare, Mic, Monitor, Moon, MoreHorizontal, MoreVertical, MousePointer, Music, Navigation, Package, Paperclip, Pause, PenTool, Play, Power, Printer, QrCode, Repeat, Rss, Scissors, Send, Share, Shield, ShoppingBag, ShoppingCart, Sun, Tag, Target, Terminal, ThumbsDown, ThumbsUp, ToggleLeft, ToggleRight, TrendingDown, TrendingUp, Truck, Tv, Twitter, Umbrella, Unlock, Upload, Users, Video, Voicemail, Volume1, Volume2, VolumeX, Wallet, Watch, Wifi, Youtube, ZoomIn, ZoomOut
-} from 'lucide-react';
+  Activity, AlertCircle, Archive, ArrowDown, ArrowLeft, ArrowRight, ArrowUp, AtSign, Award, Bell, Bookmark, Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Circle, Clipboard, Clock, Cloud, Code, Command, CreditCard, Database, Disc, Download, ExternalLink, Facebook, File, Filter, Flag, Folder, Gift, Github, Globe, Grid, HardDrive, Hash, Headphones, Inbox, Info, Instagram, Key, Layers, LifeBuoy, Link, Linkedin, List, Lock, LogIn, LogOut, Map, Menu, MessageCircle, MessageSquare, Mic, Monitor, Moon, MoreHorizontal, MoreVertical, MousePointer, Music, Navigation, Package, Paperclip, Pause, PenTool, Play, Power, Printer, QrCode, Repeat, Rss, Scissors, Send, Share, Shield, ShoppingBag, ShoppingCart, Sun, Tag, Target, Terminal, ThumbsDown, ThumbsUp, ToggleLeft, ToggleRight, TrendingDown, TrendingUp, Truck, Tv, Twitter, Umbrella, Unlock, Upload, Users, Video, Voicemail, Volume1, Volume2, VolumeX, Wallet, Watch, Wifi, Youtube, ZoomIn, ZoomOut } from
+'lucide-react';
 
 // This map must match the names used in ComponentEditor.tsx
 const ICONS: Record<string, React.ElementType> = {
@@ -137,7 +137,7 @@ const ICONS: Record<string, React.ElementType> = {
   wifi: Wifi,
   youtube: Youtube,
   zoomIn: ZoomIn,
-  zoomOut: ZoomOut,
+  zoomOut: ZoomOut
 };
 
 type IconProps = {
@@ -150,8 +150,7 @@ type IconProps = {
 
 const Icon: React.FC<IconProps & React.SVGProps<SVGSVGElement>> = ({ name, size = 20, color, strokeWidth, className, ...props }) => {
   const Component = ICONS[name] ?? HelpCircle;
-  return <Component size={size} color={color} strokeWidth={strokeWidth} className={className} {...props} />;
+  return <Component size={size} color={color} strokeWidth={strokeWidth} className={className} {...props} data-zeus-id="Z-143" />;
 };
 
 export default Icon;
-

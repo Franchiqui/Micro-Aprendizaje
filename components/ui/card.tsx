@@ -2,123 +2,109 @@
 
 'use client';
 
-import React from 'react';
-import { cn } from '@/lib/utils';
+import React, { forwardRef, memo } from 'react';
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: 'default' | 'outline' | 'ghost';
+  variant?: 'default' | 'outlined' | 'elevated';
+  padding?: 'none' | 'sm' | 'md' | 'lg';
   hover?: boolean;
 }
 
 interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  withSeparator?: boolean;
+  title?: string;
+  description?: string;
 }
 
-interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
-  withSeparator?: boolean;
-}
+interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-const Card = React.memo(
-  React.forwardRef<HTMLDivElement, CardProps>(
-    ({ className, variant = 'default', hover = false, ...props }, ref) => {
-      const variants = {
-        default: 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-sm',
-        outline: 'border-2 border-gray-300 dark:border-gray-600',
-        ghost: 'bg-transparent border-none shadow-none'
-      };
+interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-      const hoverStyles = hover 
-        ? 'transition-all duration-200 hover:shadow-md hover:scale-[1.02] focus-within:shadow-md focus-within:scale-[1.02]' 
-        : '';
+const cn = (...inputs: any[]) => twMerge(clsx(inputs));
 
-      return (
-        <div
-          ref={ref}
-          className={cn(
-            'rounded-lg overflow-hidden',
-            variants[variant],
-            hoverStyles,
-            className
-          )}
-          {...props}
-        />
-      );
-    }
-  )
-);
+const Card = memo(forwardRef<HTMLDivElement, CardProps>(
+  ({ className, variant = 'default', padding = 'md', hover = false, ...props }, ref) => {
+    const baseStyles = 'rounded-xl bg-gradient-to-br from-cyan-500 via-blue-600 to-black text-white shadow-lg';
 
-const CardHeader = React.memo(
-  React.forwardRef<HTMLDivElement, CardHeaderProps>(
-    ({ className, withSeparator = false, ...props }, ref) => (
+    const variants = {
+      default: 'border border-gray-700/50',
+      outlined: 'border-2 border-cyan-400/30',
+      elevated: 'shadow-2xl shadow-blue-900/20'
+    };
+
+    const paddings = {
+      none: '',
+      sm: 'p-3',
+      md: 'p-6',
+      lg: 'p-8'
+    };
+
+    const hoverStyles = hover ?
+    'transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-blue-900/30' :
+    '';
+
+    return (
       <div
         ref={ref}
         className={cn(
-          'flex flex-col space-y-1.5 p-6',
-          withSeparator && 'border-b border-gray-200 dark:border-gray-700',
+          baseStyles,
+          variants[variant],
+          paddings[padding],
+          hoverStyles,
           className
         )}
-        {...props}
-      />
-    )
-  )
-);
+        {...props} data-zeus-id="Z-243" />);
 
-const CardTitle = React.memo(
-  React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
-    ({ className, ...props }, ref) => (
-      <h3
-        ref={ref}
-        className={cn(
-          'text-lg font-semibold leading-none tracking-tight text-gray-900 dark:text-white',
-          className
-        )}
-        {...props}
-      />
-    )
-  )
-);
 
-const CardDescription = React.memo(
-  React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
-    ({ className, ...props }, ref) => (
-      <p
-        ref={ref}
-        className={cn('text-sm text-gray-500 dark:text-gray-400', className)}
-        {...props}
-      />
-    )
-  )
-);
-
-const CardContent = React.memo(
-  React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-    ({ className, ...props }, ref) => (
-      <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
-    )
-  )
-);
-
-const CardFooter = React.memo(
-  React.forwardRef<HTMLDivElement, CardFooterProps>(
-    ({ className, withSeparator = false, ...props }, ref) => (
-      <div
-        ref={ref}
-        className={cn(
-          'flex items-center p-6 pt-0',
-          withSeparator && 'border-t border-gray-200 dark:border-gray-700',
-          className
-        )}
-        {...props}
-      />
-    )
-  )
-);
+  }
+));
 
 Card.displayName = 'Card';
+
+const CardHeader = memo(forwardRef<HTMLDivElement, CardHeaderProps>(
+  ({ className, title, description, ...props }, ref) =>
+  <div
+    ref={ref}
+    className={cn('flex flex-col space-y-1.5', className)}
+    {...props} data-zeus-id="Z-244">
+
+      {title &&
+    <h3 className="text-xl font-semibold leading-none tracking-tight text-white" data-zeus-id="Z-245">
+          {title}
+        </h3>
+    }
+      {description &&
+    <p className="text-sm text-cyan-100/80" data-zeus-id="Z-246">{description}</p>
+    }
+    </div>
+
+));
+
 CardHeader.displayName = 'CardHeader';
-CardTitle.displayName = 'CardTitle';
-CardDescription.displayName = 'CardDescription';
+
+const CardContent = memo(forwardRef<HTMLDivElement, CardContentProps>(
+  ({ className, ...props }, ref) =>
+  <div
+    ref={ref}
+    className={cn('pt-0', className)}
+    {...props} data-zeus-id="Z-247" />
+
+
+));
+
 CardContent.displayName = 'CardContent';
+
+const CardFooter = memo(forwardRef<HTMLDivElement, CardFooterProps>(
+  ({ className, ...props }, ref) =>
+  <div
+    ref={ref}
+    className={cn('flex items-center pt-4', className)}
+    {...props} data-zeus-id="Z-248" />
+
+
+));
+
 CardFooter.displayName = 'CardFooter';
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent };
+export { Card, CardHeader, CardContent, CardFooter };

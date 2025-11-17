@@ -2,105 +2,137 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
-type SetValue<T> = T | ((prevValue: T) => T);
+type StorageValue<T> = T | null;
 
-interface UseLocalStorageOptions<T> {
-  serializer?: (value: T) => string;
-  deserializer?: (value: string) => T;
-  onError?: (error: unknown) => void;
+interface UseLocalStorageReturn<T> {
+  value: StorageValue<T>;
+  setValue: (value: T | ((prev: StorageValue<T>) => T)) => void;
+  removeValue: () => void;
+  isLoaded: boolean;
 }
 
 export function useLocalStorage<T>(
   key: string,
-  initialValue: T,
-  options: UseLocalStorageOptions<T> = {}
-) {
-  const {
-    serializer = JSON.stringify,
-    deserializer = JSON.parse,
-    onError = (error: unknown) => {
-      console.error(`useLocalStorage error for key "${key}":`, error);
-    }
-  } = options;
+  initialValue: T
+): UseLocalStorageReturn<T> {
+  const [storedValue, setStoredValue] = useState<StorageValue<T>>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  const [storedValue, setStoredValue] = useState<T>(() => {
+  const getValue = useCallback((): StorageValue<T> => {
     if (typeof window === 'undefined') {
       return initialValue;
     }
 
     try {
       const item = window.localStorage.getItem(key);
-      return item ? deserializer(item) : initialValue;
+      return item ? JSON.parse(item) : initialValue;
     } catch (error) {
-      onError(error);
+      console.warn(`Error reading localStorage key "${key}":`, error);
       return initialValue;
     }
-  });
+  }, [key, initialValue]);
 
-  const setValue = useCallback((value: SetValue<T>) => {
+  const setValue = useCallback((value: T | ((prev: StorageValue<T>) => T)) => {
     try {
       const valueToStore = value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
-
+      
       if (typeof window !== 'undefined') {
-        window.localStorage.setItem(key, serializer(valueToStore));
+        window.localStorage.setItem(key, JSON.stringify(valueToStore));
       }
     } catch (error) {
-      onError(error);
+      console.warn(`Error setting localStorage key "${key}":`, error);
     }
-  }, [key, serializer, storedValue, onError]);
+  }, [key, storedValue]);
 
   const removeValue = useCallback(() => {
     try {
-      setStoredValue(initialValue);
+      setStoredValue(null);
+      
       if (typeof window !== 'undefined') {
         window.localStorage.removeItem(key);
       }
     } catch (error) {
-      onError(error);
+      console.warn(`Error removing localStorage key "${key}":`, error);
     }
-  }, [key, initialValue, onError]);
+  }, [key]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
-    }
+    setStoredValue(getValue());
+    setIsLoaded(true);
+  }, [getValue]);
 
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === key && event.newValue !== event.oldValue) {
-        try {
-          const newValue = event.newValue ? deserializer(event.newValue) : initialValue;
-          setStoredValue(newValue);
-        } catch (error) {
-          onError(error);
-        }
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, [key, initialValue, deserializer, onError]);
-
-  return [storedValue, setValue, removeValue] as const;
+  return {
+    value: storedValue,
+    setValue,
+    removeValue,
+    isLoaded
+  };
 }
 
-export function useLocalStorageBoolean(key: string, initialValue: boolean = false) {
-  return useLocalStorage<boolean>(key, initialValue, {
-    serializer: (value: boolean) => value.toString(),
-    deserializer: (value: string) => value === 'true'
-  });
+export function useLocalStorageObject<T extends Record<string, unknown>>(
+  key: string,
+  initialValue: T
+) {
+  const { value, setValue, removeValue, isLoaded } = useLocalStorage<T>(key, initialValue);
+
+  const updateField = useCallback((field: keyof T, fieldValue: T[keyof T]) => {
+    setValue(prev => prev ? { ...prev, [field]: fieldValue } : { [field]: fieldValue } as T);
+  }, [setValue]);
+
+  const removeField = useCallback((field: keyof T) => {
+    setValue(prev => {
+      if (!prev) return prev;
+      const { [field]: _, ...rest } = prev;
+      return rest as T;
+    });
+  }, [setValue]);
+
+  return {
+    value,
+    setValue,
+    updateField,
+    removeField,
+    removeValue,
+    isLoaded
+  };
 }
 
-export function useLocalStorageNumber(key: string, initialValue: number = 0) {
-  return useLocalStorage<number>(key, initialValue, {
-    serializer: (value: number) => value.toString(),
-    deserializer: (value: string) => Number(value)
-  });
-}
+export function useLocalStorageArray<T>(
+  key: string,
+  initialValue: T[] = []
+) {
+  const { value, setValue, removeValue, isLoaded } = useLocalStorage<T[]>(key, initialValue);
 
-export function useLocalStorageString(key: string, initialValue: string = '') {
-  return useLocalStorage<string>(key, initialValue, {
-    serializer: (value: string) => value,
-    deserializer: (value: string) => value
-  });
+  const addItem = useCallback((item: T) => {
+    setValue(prev => prev ? [...prev, item] : [item]);
+  }, [setValue]);
+
+  const removeItem = useCallback((index: number) => {
+    setValue(prev => prev ? prev.filter((_, i) => i !== index) : []);
+  }, [setValue]);
+
+  const updateItem = useCallback((index: number, item: T) => {
+    setValue(prev => {
+      if (!prev) return [item];
+      const newArray = [...prev];
+      newArray[index] = item;
+      return newArray;
+    });
+  }, [setValue]);
+
+  const clearAll = useCallback(() => {
+    setValue([]);
+  }, [setValue]);
+
+  return {
+    value: value || [],
+    setValue,
+    addItem,
+    removeItem,
+    updateItem,
+    clearAll,
+    removeValue,
+    isLoaded
+  };
 }

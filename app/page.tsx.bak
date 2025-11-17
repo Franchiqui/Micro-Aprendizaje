@@ -121,7 +121,7 @@ export default function HomePage() {
   };
 
   const navigationItems = [
-  { id: 'home', icon: HomeIcon, label: 'Inicio', href: '/inicio' },
+  { id: 'home', icon: HomeIcon, label: 'Inicio' },
   { id: 'add-product', icon: PlusIcon, label: 'Agregar' },
   { id: 'shopping-list', icon: ShoppingCartIcon, label: 'Compras' },
   { id: 'statistics', icon: ChartBarIcon, label: 'Estadísticas' }] as
@@ -151,7 +151,7 @@ export default function HomePage() {
           </div>
 
           <div className="bg-black/20 rounded-2xl p-6 mb-8" data-zeus-id="Z-25" style={{ borderWidth: 2, borderColor: '#265dc9', boxShadow: '0px 22px 19px 9px rgba(0,0,0,0.31)' }}>
-            <h2 className="text-xl font-semibold text-white mb-4" data-zeus-id="Z-26" style={{ color: '#2b00ff', fontSize: 25, fontWeight: '800', fontFamily: 'Courier New, monospace', textAlign: 'center' }}>Productos Recientes</h2>
+            <h2 className="text-xl font-semibold text-white mb-4" data-zeus-id="Z-26">Productos Recientes</h2>
             <div className="space-y-3" data-zeus-id="Z-27">
               {products.slice(-5).map((product) =>
               <div key={product.id} className="flex justify-between items-center bg-white/10 rounded-xl p-3" data-zeus-id="Z-28">
@@ -172,23 +172,14 @@ export default function HomePage() {
         <nav className="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-black/80 backdrop-blur-lg rounded-full p-2 shadow-2xl" data-zeus-id="Z-34">
           <div className="flex space-x-2" data-zeus-id="Z-35">
             {navigationItems.map((item) =>
-              item.id === 'home' ? (
-                <a
-                  key={item.id}
-                  href={item.href}
-                  className="flex flex-col items-center p-3 rounded-full text-white hover:bg-white/20 transition-colors" data-zeus-id="Z-36">
-                  <item.icon className="w-6 h-6" data-zeus-id="Z-37" />
-                  <span className="text-xs mt-1" data-zeus-id="Z-38">{item.label}</span>
-                </a>
-              ) : (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveModal(item.id as ModalType)}
-                  className="flex flex-col items-center p-3 rounded-full text-white hover:bg-white/20 transition-colors" data-zeus-id="Z-36">
-                  <item.icon className="w-6 h-6" data-zeus-id="Z-37" />
-                  <span className="text-xs mt-1" data-zeus-id="Z-38">{item.label}</span>
-                </button>
-              )
+            <button
+              key={item.id}
+              onClick={() => setActiveModal(item.id as ModalType)}
+              className="flex flex-col items-center p-3 rounded-full text-white hover:bg-white/20 transition-colors" data-zeus-id="Z-36">
+
+                <item.icon className="w-6 h-6" data-zeus-id="Z-37" />
+                <span className="text-xs mt-1" data-zeus-id="Z-38">{item.label}</span>
+              </button>
             )}
           </div>
         </nav>
@@ -319,8 +310,8 @@ function ShoppingListModal({
                         <XMarkIcon className="w-5 h-5" data-zeus-id="Z-62" />
                       </button>
                     </div>
-                  )},
-  {shoppingList.length === 0 &&
+                  )}
+                  {shoppingList.length === 0 &&
                   <p className="text-gray-500 text-center py-4" data-zeus-id="Z-63">
                       No hay productos en la lista
                     </p>

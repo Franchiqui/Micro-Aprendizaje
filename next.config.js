@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Enable static export so "next build" emits to ./out for Capacitor
+  output: 'export',
   images: {
+    // Disable image optimization for static export
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',

@@ -9,28 +9,28 @@ interface FileContextType {
 
 const FileContext = createContext<FileContextType | undefined>(undefined);
 
-export function FileProvider({ children }: { children: React.ReactNode }) {
+export function FileProvider({ children }: {children: React.ReactNode;}) {
   const [files, setFiles] = useState<File[]>([]);
 
   const addFile = (file: File) => {
-    setFiles(prev => [...prev, file]);
+    setFiles((prev) => [...prev, file]);
   };
 
   const removeFile = (fileName: string) => {
-    setFiles(prev => prev.filter(file => file.name !== fileName));
+    setFiles((prev) => prev.filter((file) => file.name !== fileName));
   };
 
   const value = {
     files,
     addFile,
-    removeFile,
+    removeFile
   };
 
   return (
-    <FileContext.Provider value={value}>
+    <FileContext.Provider value={value} data-zeus-id="Z-282">
       {children}
-    </FileContext.Provider>
-  );
+    </FileContext.Provider>);
+
 }
 
 export function useFile() {

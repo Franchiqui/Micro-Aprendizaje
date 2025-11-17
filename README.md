@@ -1,4 +1,4 @@
-# MicroAprendizaje
+# Mi Inventario App
 
 A next-js application generated with ZEUS.
 
@@ -8,6 +8,7 @@ A next-js application generated with ZEUS.
 
 - Node.js (version 18 or higher)
 - npm or yarn
+ - Java 17 (JDK) y Android Studio (para Android)
 
 ### Installation
 
@@ -22,6 +23,37 @@ npm run dev
 ```
 
 3. Open your browser and navigate to the local development URL.
+
+## Android (Capacitor)
+
+Este proyecto está listo para Android con Capacitor. Tras construir la web (Next.js exporta a 
+`out`), usa los siguientes comandos:
+
+1) Añadir la plataforma Android (crea la carpeta `android/` con Gradle Wrapper real):
+```bash
+npx cap add android
+```
+
+2) Sincronizar cambios de la web a Android:
+```bash
+npx cap sync android
+```
+
+3) Compilar (usa firma solo si haces release):
+```bash
+npx cap build android
+```
+
+4) Compilación de Debug directa con Gradle Wrapper:
+```bash
+./android/gradlew -p android assembleDebug
+# En Windows PowerShell:
+./android/gradlew.bat -p android assembleDebug
+```
+
+Artefactos:
+- APK debug: `android/app/build/outputs/apk/debug/app-debug.apk`
+- Para release firmado: configura keystore y ejecuta `assembleRelease`.
 
 ## Available Scripts
 
