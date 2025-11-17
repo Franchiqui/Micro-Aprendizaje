@@ -3,7 +3,6 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { createPortal } from 'react-dom';
-import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { clsx } from 'clsx';
 

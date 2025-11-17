@@ -32,7 +32,7 @@ export function useLocalStorage<T>(
     }
   }, [key, initialValue]);
 
-  const setValue = useCallback((value: T | ((prev: StorageValue<T>) => T)) => {
+  const setValue = useCallback((value: T | ((prev: StorageValue<T>) => StorageValue<T>)) => {
     try {
       const valueToStore = value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
@@ -77,16 +77,16 @@ export function useLocalStorageObject<T extends Record<string, unknown>>(
   const { value, setValue, removeValue, isLoaded } = useLocalStorage<T>(key, initialValue);
 
   const updateField = useCallback((field: keyof T, fieldValue: T[keyof T]) => {
-    setValue(prev => prev ? { ...prev, [field]: fieldValue } : { [field]: fieldValue } as T);
+    setValue(prev => (prev ? { ...prev, [field]: fieldValue } : { [field]: fieldValue }) as T);
   }, [setValue]);
 
   const removeField = useCallback((field: keyof T) => {
     setValue(prev => {
-      if (!prev) return prev;
+      if (!prev) return initialValue;
       const { [field]: _, ...rest } = prev;
       return rest as T;
     });
-  }, [setValue]);
+  }, [setValue, initialValue]);
 
   return {
     value,

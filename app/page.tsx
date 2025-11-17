@@ -59,7 +59,7 @@ const useStore = create<AppState>()(
         products: state.products.filter((p) => p.id !== id)
       })),
       addToShoppingList: (productName) => set((state) => ({
-        shoppingList: [...new Set([...state.shoppingList, productName])]
+        shoppingList: Array.from(new Set([...state.shoppingList, productName]))
       })),
       removeFromShoppingList: (productName) => set((state) => ({
         shoppingList: state.shoppingList.filter((item) => item !== productName)

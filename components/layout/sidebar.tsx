@@ -11,11 +11,11 @@ import {
   ChartBarIcon,
   XMarkIcon } from
 '@heroicons/react/24/outline';
-import { useModalStore } from '@/stores/modal-store';
 
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  onModalOpen: (modalType: 'home' | 'add-product' | 'shopping-list' | 'statistics') => void;
 }
 
 interface NavItem {
@@ -32,13 +32,11 @@ const navItems: NavItem[] = [
 { id: 'statistics', label: 'Estadísticas', icon: ChartBarIcon, modalType: 'statistics' }];
 
 
-export const Sidebar = React.memo(({ isOpen, onClose }: SidebarProps) => {
-  const { openModal } = useModalStore();
-
+export const Sidebar = React.memo(({ isOpen, onClose, onModalOpen }: SidebarProps) => {
   const handleNavItemClick = useCallback((modalType: NavItem['modalType']) => {
-    openModal(modalType);
+    onModalOpen(modalType);
     onClose();
-  }, [openModal, onClose]);
+  }, [onModalOpen, onClose]);
 
   const handleBackdropClick = useCallback((e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {

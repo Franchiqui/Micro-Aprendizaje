@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Mi Inventario App</string>
+    <string name="title_activity_main">Mi Inventario App</string>
+    <string name="package_name">com.zeus.miinventarioapp</string>
+    <string name="custom_url_scheme">com.zeus.miinventarioapp</string>
+</resources>
